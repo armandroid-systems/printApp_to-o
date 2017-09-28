@@ -37,18 +37,18 @@ public class FragmentCommand extends Fragment implements View.OnClickListener, F
                              @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_command, container, false);
 
-        presenter = new FragmentCommandPresenter(getActivity());
-        presenter.init(this);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         editIp = (EditText) view.findViewById(R.id.connection);
         btnSelect =(Button) view.findViewById(R.id.btnImage);
         btnSend = (Button) view.findViewById(R.id.btnSend);
         preview = (ImageView) view.findViewById(R.id.imagPreview);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        presenter = new FragmentCommandPresenter(getActivity());
+        presenter.init(this);
         btnSelect.setOnClickListener(this);
         btnSend.setOnClickListener(this);
     }
