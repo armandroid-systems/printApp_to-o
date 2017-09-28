@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PrintApp</string>
+    <!--Connection strings-->
+    <string name="url_hint">Enter the device IP address</string>
+    <string name="btn_connection">Send</string>
+    <string name="btn_img">Select image</string>
+</resources>
