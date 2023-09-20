@@ -3,7 +3,7 @@ name: Auto tag Main Branch
 on:
   push:
     branches:
-      - 'relese/*'
+      - 'release/*'
 jobs:
   create-tag:
     runs-on: ubuntu-latest
