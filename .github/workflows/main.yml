@@ -19,7 +19,7 @@ jobs:
           echo "this is head: $HEAD"
           # rutina para splitear la version que se puso en la brnacha
           IFS="/" read -ra version_array <<< "$branch"
-          version_number="{{ version_array[2] }}"
+          version_number="${{ version_array[2] }}"
           echo "version number: $version_number"
           if [[ $branch == *"release"* ]]; then 
             tag_name="auto-release-tag-v$version_number"
