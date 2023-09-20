@@ -17,8 +17,8 @@ jobs:
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
           echo "This is the branch head: $branch"
           echo "this is head: $HEAD"
-          if [ "$branch" == "master" ]; then 
-            tag_name="auto-tag-$(release + '0.0.2')"
+          if [ "$branch" == *"release"* ]; then 
+            tag_name="auto-tag-$(release + '0.0.1')"
             git tag "$tag_name"
             git push origin "$tag_name"
             echo "Tag created for new app: $tag_name"
