@@ -15,10 +15,15 @@ jobs:
       - name: Create Tag to Main Branch
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          version_number = "0.0.0"
           echo "This is the branch head: $branch"
           echo "this is head: $HEAD"
+          # rutina para splitear la version que se puso en la brnacha
+          IFS="/" read -ra version_array <<< "$branch"
+          version_number = "$(verion_array[2])"
           if [[ $branch == *"release"* ]]; then 
-            tag_name="auto-tag-$(release + '0.0.1')"
+            tag_name="auto-release-tag-v$version_number"
+            echo "this is the tag: $tag_name"
             git tag "$tag_name"
             git push origin "$tag_name"
             echo "Tag created for new app: $tag_name"
