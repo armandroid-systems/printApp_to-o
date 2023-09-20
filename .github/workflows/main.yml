@@ -17,6 +17,15 @@ jobs:
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
           echo "This is the branch head: $branch"
           echo "this is head: $HEAD"
+          if [[ $branch == *"release"* ]]; then 
+            echo "contiene release" 
+          fi
+          if [[ "$branch" == *"release"* ]]; then
+            echo "funciono con comillas y tiene release"
+          fi
+          if [ contains($branch, "release") ]; then 
+            echo "paso con contains"
+          fi
           if [[ $branch =~ .*release*. ]]; then 
             tag_name="auto-tag-$(release + '0.0.1')"
             git tag "$tag_name"
