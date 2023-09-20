@@ -14,7 +14,7 @@ jobs:
 
       - name: Create Tag to Main Branch
         run: |
-          branch=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+          branch=$(git rev-parse --abbrev-ref --symbolic-full-name HEAD)
           echo "This is the branch head: $branch"
           if [ "$branch" == "master" ]; then 
             tag_name="auto-tag-$(release + '0.0.2')"
