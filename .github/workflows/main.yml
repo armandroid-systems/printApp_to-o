@@ -9,8 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: get release reference
+      - name: checkout the release branch created
         uses: actions/checkout@v3
+        
+      - name: get release reference
         id: get-version
 
         run: |
