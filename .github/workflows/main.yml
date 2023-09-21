@@ -15,7 +15,7 @@ jobs:
       - name: Sand box other commands
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
-          origin_branch=$(git for-each-ref --format='%(upstream:short:track))' refs/heads/0.0.2)
+          origin_branch=$(git for-each-ref --format='%(upstream:short:track)' refs/heads/0.0.2)
 
           echo "branch en la que estoy parado: $branch"
           echo "ramona base de mi branch actual: $origin_branch"
