@@ -26,6 +26,7 @@ jobs:
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
 
           # print content
+          cd PrintApp
           ls
           
           # rutina para splitear la version que se puso en la brnacha
