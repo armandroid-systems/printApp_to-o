@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: checkout the release branch created
         uses: actions/checkout@v3
-        
+
       - name: get release reference
         id: get-version
 
@@ -68,7 +68,7 @@ jobs:
           echo "esta es la v $version_name"
           
           # sed -i "s/versionName [0-9]\+/versionName $version_name/" app/build.gradle
-          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" app/build.gradle
+          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" PrintApp/app/build.gradle
           
           # commit changes
           git config user.email "mail@rccl.com"
