@@ -58,7 +58,7 @@ jobs:
 
           # rutina para sobreescribir 
           new_version_minor = $((version_minor))+1
-          new_version_name =$major+$new_version_minor+$patch
+          new_version_name ="${major}.${new_version_minor}.${patch}"
           # sed -i "s/versionName [0-9]\+/versionName $new_version_name/" app/build.gradle
           sed -i "s/versionName \"[0-9.]\+\"/versionName \"$new_version_name\"/" app/build.gradle
           
