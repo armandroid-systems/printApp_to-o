@@ -11,19 +11,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: master
 
       - name: Sand box other commands
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q BASE))
           # rutina para splitear la version que se puso en la brnacha
           IFS="/" read -ra version_array <<< "$branch"
-          version_number="${version_array[2]}"
+          VERSION_NUMBER="${version_array[2]}"
 
-          echo "::set-output name=current_version::$version_number"
+          echo "::set-output name=current_version::$VERSION_NUMBER"
           
       - name: Increase version number in app build.gradle file
+        
         # if: ${{ success() }}
         run: |
           # branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
@@ -35,7 +34,7 @@ jobs:
           # IFS="/" read -ra version_array <<< "$branch"
           # version_number="${version_array[2]}"
 
-          echo "esta es la variable env: $current_version"
+          echo "esta es la variable env: $CURRENT_VERSION"
           # rutina para splitear el minor 
           IFS="." read -ra version_name_items <<< "$current_version"
           major="${version_name_items[0]}"
