@@ -25,17 +25,4 @@ jobs:
           #minor="${version_name_items[1]}"
           patch=${version_name_items[2]}"
 
-          # rutina para sobreescribir 
-          version_minor=$((((patch)) + 1))
-          version_name="${major}.${version_minor}.${patch}"
-          
-          echo "esta es la v $version_name"
-
-          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" app/build.gradle
-          
-          # commit changes
-          git config user.email "mail@rccl.com"
-          git config user.name "RCCL-automated versioning"
-          git add app/build.gradle
-          git commit -m "Application version updated to $version_name"
-          git push origin
+          echo "este es patch $patch"
