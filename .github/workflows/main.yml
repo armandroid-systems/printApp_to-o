@@ -19,7 +19,7 @@ jobs:
           IFS="/" read -ra version_array <<< "$branch"
           VERSION_NUMBER="${version_array[2]}"
 
-          echo "::set-output name=current_version::$VERSION_NUMBER"
+          echo "::set-output name=version_number::$VERSION_NUMBER"
           
       - name: Increase version number in app build.gradle file
         
@@ -34,9 +34,11 @@ jobs:
           # IFS="/" read -ra version_array <<< "$branch"
           # version_number="${version_array[2]}"
 
-          echo "esta es la variable env: $CURRENT_VERSION"
+          m_version=$VERSION_NUMBER
+
+          echo "esta es la variable env: $m_version"
           # rutina para splitear el minor 
-          IFS="." read -ra version_name_items <<< "$current_version"
+          IFS="." read -ra version_name_items <<< "$VERSION_NUMBER"
           major="${version_name_items[0]}"
           minor="${version_name_items[1]}"
           patch="0"
