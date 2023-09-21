@@ -2,8 +2,8 @@ name: Update minor version
 
 on:
   pull_request:
-      types:
-        - opened
+    types:
+      - opened
 jobs:
   job:
     runs-on: ubuntu-latest
