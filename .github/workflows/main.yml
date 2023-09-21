@@ -1,7 +1,7 @@
 name: Auto tag Main Branch
 
 on:
-  push:
+  create:
     branches:
       - 'release/*'
 jobs:
