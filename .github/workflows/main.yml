@@ -51,7 +51,7 @@ jobs:
           version_number="${version_array[2]}"
           
           # rutina para splitear el minor 
-          IFS="." reas -ra version_name_items <<< "$version_number"
+          IFS="." read -ra version_name_items <<< "$version_number"
           major="${version_name_items[0]}"
           minor="${version_name_items[1]}"
           patch="0"
