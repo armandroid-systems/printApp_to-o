@@ -36,12 +36,12 @@ jobs:
           patch="0"
 
           # rutina para sobreescribir 
-          new_version_minor = $((minor + 1))
+          version_minor = $((minor + 1))
           echo "esta es la minor aumentada: $new_version_minor"
-          new_version_name ="${major}.${new_version_minor}.${patch}"
-          echo "esta es la v ${major}.${new_version_minor}.${patch}"
-          # sed -i "s/versionName [0-9]\+/versionName $new_version_name/" app/build.gradle
-          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$new_version_name\"/" app/build.gradle
+          version_name ="${major}.${version_minor}.${patch}"
+          echo "esta es la v ${major}.${version_minor}.${patch}"
+          # sed -i "s/versionName [0-9]\+/versionName $version_name/" app/build.gradle
+          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" app/build.gradle
           
           # commit changes
           git config user.email "mail@rccl.com"
