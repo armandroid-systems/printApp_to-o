@@ -1,40 +1,55 @@
-name: Auto tag Main Branch
+name: Automatic tag for release
 
 on:
   create:
-    branches:
-      - 'release/*'
+      branches:
+          - "*release*"
 jobs:
-  create-tag:
+  jobOne:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: get release reference
         uses: actions/checkout@v3
-
-      - name: Sand box other commands
         id: get-version
+
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q BASE))
-          # rutina para splitear la version que se puso en la brnacha
+          # get version name from branch
           IFS="/" read -ra version_array <<< "$branch"
           VERSION_NUMBER="${version_array[2]}"
 
           echo "::set-output name=version_number::$VERSION_NUMBER"
-          
-      - name: Increase version number in app build.gradle file
-        
-        # if: ${{ success() }}
+
+      - name: checkout master to tag
+        uses: actions/checkout@v3
+        with:
+          ref: master # here setup the branch reference it can be main or master
+
+      - name: tag base branch after checkout
+
         run: |
           # branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
-
-          # print content
-          cd PrintApp
-          
-          # rutina para splitear la version que se puso en la brnacha
+          echo "This is the branch head: $branch"
+          echo "this is head: $HEAD"
+          # rutina para splitear la version que se puso en la ramona
           # IFS="/" read -ra version_array <<< "$branch"
           # version_number="${version_array[2]}"
+          # echo "version number: $version_number"
 
+          # recover previous step value
+          m_version=${{ steps.get-version.outputs.version_number }}
+
+          # create tag
+          tag_name="auto-release-tag-v$m_version"
+          echo "This is the tag: $tag_name"
+          git tag "$tag_name"
+          git push origin "$tag_name"
+          echo "Tag created for last release: $tag_name"
+
+      - name: Change version number of main branch to next
+        if: ${{ success() }}
+        run: |
           m_version=${{ steps.get-version.outputs.version_number }}
 
           echo "esta es la variable env: $m_version"
@@ -61,24 +76,5 @@ jobs:
           git push origin master
         env:
           GRADLE_OPTS: -Dorg.gradle.daemon=false 
-          
-      - name: Create Tag to Main Branch
-        run: |
-          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
-          echo "This is the branch head: $branch"
-          echo "this is head: $HEAD"
-          # rutina para splitear la version que se puso en la ramona
-          IFS="/" read -ra version_array <<< "$branch"
-          version_number="${version_array[2]}"
-          echo "version number: $version_number"
 
-          # verifica si es una branch de release si lo es, entonces crea el tag, sino no hace nada
-          if [[ $branch == *"release"* ]]; then 
-            tag_name="auto-release-tag-v$version_number"
-            echo "this is the tag: $tag_name"
-            git tag "$tag_name"
-            git push origin "$tag_name"
-            echo "Tag created for new app: $tag_name"
-          else
-            echo "Tag not created"
-          fi 
+
