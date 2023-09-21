@@ -36,7 +36,7 @@ jobs:
           patch="0"
 
           # rutina para sobreescribir 
-          version_minor = $((minor + 1))
+          version_minor = $((minor))+1
           echo "esta es la minor aumentada: $new_version_minor"
           version_name ="${major}.${version_minor}.${patch}"
           echo "esta es la v ${major}.${version_minor}.${patch}"
