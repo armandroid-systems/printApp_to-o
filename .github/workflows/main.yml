@@ -42,7 +42,7 @@ jobs:
 
           # recover previous step value
           # m_version=${{ steps.get-version.outputs.version_number }}
-          m_version=$
+          m_version=$version_number
 
           # create tag
           tag_name="auto-release-tag-v$m_version"
@@ -54,7 +54,8 @@ jobs:
       - name: Change version number of main branch to next
         if: ${{ success() }}
         run: |
-          m_version=${{ steps.get-version.outputs.version_number }}
+          # m_version=${{ steps.get-version.outputs.version_number }}
+          m_version=$version_number
 
           echo "esta es la variable env: $m_version"
           # rutina para splitear el minor 
