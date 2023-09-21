@@ -30,12 +30,12 @@ jobs:
 
           # print content
           cd PrintApp
-          ls
           
           # rutina para splitear la version que se puso en la brnacha
           # IFS="/" read -ra version_array <<< "$branch"
           # version_number="${version_array[2]}"
-          
+
+          echo "esta es la variable env: $VERSION_NUMBERS"
           # rutina para splitear el minor 
           IFS="." read -ra version_name_items <<< "$VERSION_NUMBERS"
           major="${version_name_items[0]}"
@@ -44,7 +44,7 @@ jobs:
 
           # rutina para sobreescribir 
           version_minor=$((minor++))
-          echo "esta es la minor aumentada: $new_version_minor"
+          echo "esta es la minor aumentada: $version_minor"
           version_name="${major}.${version_minor}.${patch}"
           echo "esta es la v $version_name"
           
