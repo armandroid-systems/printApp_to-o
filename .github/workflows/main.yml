@@ -12,15 +12,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
 
+      - name: Sand box other commands
+        run: |
+          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          origin_branch=$(git for-each-ref --format='%(upstream:track:short))' refs/heads/$branch)
+
+          echo "branch en la que estoy parado: $branch"
+          echo "ramona base de mi branch actual: $origin_branch"
+
       - name: Create Tag to Main Branch
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
           echo "This is the branch head: $branch"
           echo "this is head: $HEAD"
-          # rutina para splitear la version que se puso en la brnacha
+          # rutina para splitear la version que se puso en la ramona
           IFS="/" read -ra version_array <<< "$branch"
           version_number="${version_array[2]}"
           echo "version number: $version_number"
+
+          # verifica si es una branch de release si lo es, entonces crea el tag, sino no hace nada
           if [[ $branch == *"release"* ]]; then 
             tag_name="auto-release-tag-v$version_number"
             echo "this is the tag: $tag_name"
@@ -30,3 +40,33 @@ jobs:
           else
             echo "Tag not created"
           fi
+
+      - name: Increase version number in app build.gradle file
+        if: ${{ success() }}
+        run: |
+          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          
+          # rutina para splitear la version que se puso en la brnacha
+          IFS="/" read -ra version_array <<< "$branch"
+          version_number="${version_array[2]}"
+          
+          # rutina para splitear el minor 
+          IFS="." reas -ra version_name_items <<< "$version_number"
+          major="${version_name_items[0]}"
+          minor="${version_name_items[1]}"
+          patch="0"
+
+          # rutina para sobreescribir 
+          new_version_minor = $((version_minor))+1
+          new_version_name =$major+$new_version_minor+$patch
+          # sed -i "s/versionName [0-9]\+/versionName $new_version_name/" app/build.gradle
+          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$new_version_name\"/" app/build.gradle
+          
+          # commit changes
+          git config user.email "mail@rccl.com"
+          git config user.name "RCCL-automated versioning"
+          git add app/build.gradle
+          git commit -m "Application version name updated to $new_version_name"
+          git push
+        env:
+          GRADLE_OPTS: -Dorg.gradle.daemon=false  
