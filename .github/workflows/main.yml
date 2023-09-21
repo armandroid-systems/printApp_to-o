@@ -13,6 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Sand box other commands
+        id: get-version
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q BASE))
           # rutina para splitear la version que se puso en la brnacha
@@ -34,11 +35,11 @@ jobs:
           # IFS="/" read -ra version_array <<< "$branch"
           # version_number="${version_array[2]}"
 
-          m_version=$VERSION_NUMBER
+          m_version=${{ steps.get-version.outputs.version_number }}
 
           echo "esta es la variable env: $m_version"
           # rutina para splitear el minor 
-          IFS="." read -ra version_name_items <<< "$VERSION_NUMBER"
+          IFS="." read -ra version_name_items <<< "$m_version"
           major="${version_name_items[0]}"
           minor="${version_name_items[1]}"
           patch="0"
