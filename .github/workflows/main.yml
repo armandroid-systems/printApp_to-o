@@ -19,28 +19,7 @@ jobs:
 
           echo "branch en la que estoy parado: $branch"
           echo "ramona base de mi branch actual: $origin_branch"
-
-      - name: Create Tag to Main Branch
-        run: |
-          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
-          echo "This is the branch head: $branch"
-          echo "this is head: $HEAD"
-          # rutina para splitear la version que se puso en la ramona
-          IFS="/" read -ra version_array <<< "$branch"
-          version_number="${version_array[2]}"
-          echo "version number: $version_number"
-
-          # verifica si es una branch de release si lo es, entonces crea el tag, sino no hace nada
-          if [[ $branch == *"release"* ]]; then 
-            tag_name="auto-release-tag-v$version_number"
-            echo "this is the tag: $tag_name"
-            git tag "$tag_name"
-            git push origin "$tag_name"
-            echo "Tag created for new app: $tag_name"
-          else
-            echo "Tag not created"
-          fi
-
+          
       - name: Increase version number in app build.gradle file
         # if: ${{ success() }}
         run: |
@@ -71,4 +50,25 @@ jobs:
           git commit -m "Application version name updated to $new_version_name"
           git push
         env:
-          GRADLE_OPTS: -Dorg.gradle.daemon=false  
+          GRADLE_OPTS: -Dorg.gradle.daemon=false 
+          
+      - name: Create Tag to Main Branch
+        run: |
+          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          echo "This is the branch head: $branch"
+          echo "this is head: $HEAD"
+          # rutina para splitear la version que se puso en la ramona
+          IFS="/" read -ra version_array <<< "$branch"
+          version_number="${version_array[2]}"
+          echo "version number: $version_number"
+
+          # verifica si es una branch de release si lo es, entonces crea el tag, sino no hace nada
+          if [[ $branch == *"release"* ]]; then 
+            tag_name="auto-release-tag-v$version_number"
+            echo "this is the tag: $tag_name"
+            git tag "$tag_name"
+            git push origin "$tag_name"
+            echo "Tag created for new app: $tag_name"
+          else
+            echo "Tag not created"
+          fi 
