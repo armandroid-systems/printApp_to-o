@@ -11,30 +11,33 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: master
 
       - name: Sand box other commands
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q BASE))
-          origin_branch=$(git for-each-ref --format='%(upstream:short)' refs/heads/0.0.2)
-
-          echo "branch en la que estoy parado: $branch"
-          echo "ramona base de mi branch actual: $origin_branch"
+          # rutina para splitear la version que se puso en la brnacha
+          IFS="/" read -ra version_array <<< "$branch"
+          version_number="${version_array[2]}"
+        env: 
+          VERSION_NUMBERS: $version_number
           
       - name: Increase version number in app build.gradle file
         # if: ${{ success() }}
         run: |
-          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          # branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
 
           # print content
           cd PrintApp
           ls
           
           # rutina para splitear la version que se puso en la brnacha
-          IFS="/" read -ra version_array <<< "$branch"
-          version_number="${version_array[2]}"
+          # IFS="/" read -ra version_array <<< "$branch"
+          # version_number="${version_array[2]}"
           
           # rutina para splitear el minor 
-          IFS="." read -ra version_name_items <<< "$version_number"
+          IFS="." read -ra version_name_items <<< "$VERSION_NUMBERS"
           major="${version_name_items[0]}"
           minor="${version_name_items[1]}"
           patch="0"
@@ -54,9 +57,6 @@ jobs:
           git add app/build.gradle
           git commit -m "Application version name updated to $new_version_name"
           git push origin master
-          
-        with:
-          ref: master
         env:
           GRADLE_OPTS: -Dorg.gradle.daemon=false 
           
