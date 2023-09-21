@@ -14,13 +14,11 @@ jobs:
 
       - name: Sand box other commands
         run: |
-          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q BASE))
           origin_branch=$(git for-each-ref --format='%(upstream:short)' refs/heads/0.0.2)
-          otra=$(github.base_ref)
 
           echo "branch en la que estoy parado: $branch"
           echo "ramona base de mi branch actual: $origin_branch"
-          echo "ramooona: $otra"
 
       - name: Create Tag to Main Branch
         run: |
