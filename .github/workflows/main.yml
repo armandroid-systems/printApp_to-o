@@ -21,7 +21,8 @@ jobs:
           IFS="/" read -ra version_array <<< "$branch"
           VERSION_NUMBER="${version_array[2]}"
 
-          echo "::set-output name=version_number::$VERSION_NUMBER"
+          # echo "::set-output name=version_number::$VERSION_NUMBER"
+          echo "version_number=$VERSION_NUMBER" >> "$GITHUB_ENV"
 
       - name: checkout master to tag
         uses: actions/checkout@v3
@@ -40,7 +41,8 @@ jobs:
           # echo "version number: $version_number"
 
           # recover previous step value
-          m_version=${{ steps.get-version.outputs.version_number }}
+          # m_version=${{ steps.get-version.outputs.version_number }}
+          m_version=$
 
           # create tag
           tag_name="auto-release-tag-v$m_version"
