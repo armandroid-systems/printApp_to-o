@@ -45,7 +45,7 @@ jobs:
           version_name="${major}.${version_minor}.${patch}"
           echo "esta es la v ${major}.${version_minor}.${patch}"
           # sed -i "s/versionName [0-9]\+/versionName $version_name/" app/build.gradle
-          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" /PrintApp/app/build.gradle
+          sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" app/build.gradle
           
           # commit changes
           git config user.email "mail@rccl.com"
