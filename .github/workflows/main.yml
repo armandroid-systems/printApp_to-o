@@ -42,7 +42,7 @@ jobs:
           fi
 
       - name: Increase version number in app build.gradle file
-        if: ${{ success() }}
+        # if: ${{ success() }}
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
           
