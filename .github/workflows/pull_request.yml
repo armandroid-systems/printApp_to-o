@@ -17,7 +17,7 @@ jobs:
           cd PrintApp
           
           current_version=$(grep "versionName" app/build.gradle | sed -n 's/.*versionName "\(.*\)".*/\1/p')
-          echo "Version extraida : $current_version"
+          echo "Version extraida $current_version"
 
           # rutina para splitear el minor 
           IFS="." read -ra version_name_items <<< "$current_version"
