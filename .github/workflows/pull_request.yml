@@ -39,5 +39,3 @@ jobs:
           git add app/build.gradle
           git commit -m "Application version updated to $version_name"
           git push origin
-
-          echo "este es patch $patch"
