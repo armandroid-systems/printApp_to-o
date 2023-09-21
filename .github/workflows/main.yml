@@ -44,6 +44,7 @@ jobs:
           echo "esta es la minor aumentada: $new_version_minor"
           version_name="${major}.${version_minor}.${patch}"
           echo "esta es la v $version_name"
+          
           # sed -i "s/versionName [0-9]\+/versionName $version_name/" app/build.gradle
           sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" app/build.gradle
           
@@ -53,6 +54,9 @@ jobs:
           git add app/build.gradle
           git commit -m "Application version name updated to $new_version_name"
           git push origin master
+          
+        with:
+          ref: master
         env:
           GRADLE_OPTS: -Dorg.gradle.daemon=false 
           
