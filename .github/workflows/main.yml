@@ -24,6 +24,9 @@ jobs:
         # if: ${{ success() }}
         run: |
           branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+
+          # print content
+          ls
           
           # rutina para splitear la version que se puso en la brnacha
           IFS="/" read -ra version_array <<< "$branch"
