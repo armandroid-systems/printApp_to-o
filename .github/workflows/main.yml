@@ -40,10 +40,10 @@ jobs:
           patch="0"
 
           # rutina para sobreescribir 
-          version_minor=$((minor))+1
+          version_minor=$((minor++))
           echo "esta es la minor aumentada: $new_version_minor"
           version_name="${major}.${version_minor}.${patch}"
-          echo "esta es la v ${major}.${version_minor}.${patch}"
+          echo "esta es la v $version_name"
           # sed -i "s/versionName [0-9]\+/versionName $version_name/" app/build.gradle
           sed -i "s/versionName \"[0-9.]\+\"/versionName \"$version_name\"/" app/build.gradle
           
@@ -52,7 +52,7 @@ jobs:
           git config user.name "RCCL-automated versioning"
           git add app/build.gradle
           git commit -m "Application version name updated to $new_version_name"
-          git push
+          git push origin master
         env:
           GRADLE_OPTS: -Dorg.gradle.daemon=false 
           
