@@ -1,7 +1,7 @@
 name: Automatic tag for release
 
 on:
-  create:
+  push:
     branches:
       - '*/release/*'
 jobs:
