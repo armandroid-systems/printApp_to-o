@@ -2,8 +2,7 @@ name: Update minor version
 
 on:
   pull_request:
-    types:
-      - opened
+    types: [opened, synchronize, reopened]
 jobs:
   job:
     runs-on: ubuntu-latest
@@ -39,4 +38,4 @@ jobs:
           git config user.name "RCCL-automated versioning"
           git add app/build.gradle
           git commit -m "Application version updated to $version_name"
-          git push $branch
+          git push origin github.head_ref
