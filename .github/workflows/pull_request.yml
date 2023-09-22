@@ -15,19 +15,20 @@ jobs:
       - name: Bump version of pr
         run: |
           cd PrintApp
-          
+          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          echo " BRANCH $branch"
           current_version=$(grep "versionName" app/build.gradle | sed -n 's/.*versionName "\(.*\)".*/\1/p')
           echo "Version extraida $current_version"
 
           # rutina para splitear el minor 
           IFS="." read -ra version_name_items <<< "$current_version"
-          #major="${version_name_items[0]}"
-          #minor="${version_name_items[1]}"
+          major="${version_name_items[0]}"
+          minor="${version_name_items[1]}"
           patch="${version_name_items[2]}"
 
           # rutina para sobreescribir 
-          version_minor=$((((patch)) + 1))
-          version_name="${major}.${version_minor}.${patch}"
+          version_patch=$((((patch)) + 1))
+          version_name="${major}.${minor}.${version_patch}"
           
           echo "esta es la v $version_name"
 
@@ -38,4 +39,4 @@ jobs:
           git config user.name "RCCL-automated versioning"
           git add app/build.gradle
           git commit -m "Application version updated to $version_name"
-          git push origin
+          git push $branch
