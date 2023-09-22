@@ -2,8 +2,8 @@ name: Automatic tag for release
 
 on:
   create:
-      branches:
-        - '*/release/*'
+    branches:
+      - '*/release/*'
 jobs:
   jobOne:
     runs-on: ubuntu-latest
