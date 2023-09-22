@@ -14,8 +14,9 @@ jobs:
       - name: Bump version of pr
         run: |
           cd PrintApp
-          branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
-          echo " BRANCH $branch"
+          # branch=$(git for-each-ref --format="%(upstream:short)" $(git symbolic-ref -q HEAD))
+          value=github.head_ref
+          echo " BRANCH $value"
           current_version=$(grep "versionName" app/build.gradle | sed -n 's/.*versionName "\(.*\)".*/\1/p')
           echo "Version extraida $current_version"
 
